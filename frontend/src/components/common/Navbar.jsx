@@ -8,7 +8,7 @@ const Navbar = () => {
 
         <div>
           <h1 className="font-bold text-xl">
-            Cetas Healthcare AI
+            Healthcare AI
           </h1>
 
           <p className="text-sm text-zinc-400">

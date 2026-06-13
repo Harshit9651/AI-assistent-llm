@@ -1,24 +1,81 @@
+import { useState } from "react";
+
 import Navbar from "../components/common/Navbar";
+import ChatWindow from "../components/chat/ChatWindow";
+import ChatInput from "../components/chat/ChatInput";
+
+import { useChat } from "../hooks/useChat";
+import { askQuestion } from "../services/chatService";
 
 const ChatPage = () => {
+
+  const {
+    messages,
+    setMessages,
+  } = useChat();
+
+  const [loading, setLoading] =
+    useState(false);
+
+  const handleSend = async (text) => {
+
+    const userMessage = {
+      id: crypto.randomUUID(),
+      role: "user",
+      content: text,
+      timestamp: Date.now(),
+    };
+
+    setMessages((prev) => [
+      ...prev,
+      userMessage,
+    ]);
+
+    setLoading(true);
+
+    try {
+
+      const aiResponse =
+        await askQuestion(text);
+
+      setMessages((prev) => [
+        ...prev,
+        aiResponse,
+      ]);
+
+    } catch (error) {
+
+      console.log(error);
+
+    } finally {
+
+      setLoading(false);
+
+    }
+  };
+
   return (
     <>
       <Navbar />
 
-      <div className="max-w-5xl mx-auto p-6">
+      <div
+        className="
+        max-w-6xl
+        mx-auto
+        h-[90vh]
+        flex
+        flex-col
+        "
+      >
 
-        <div className="rounded-xl border border-zinc-800 h-[70vh] p-6">
+        <ChatWindow
+          messages={messages}
+          loading={loading}
+        />
 
-          <h2 className="text-2xl font-semibold">
-            Welcome to HealthCare AI
-          </h2>
-
-          <p className="text-zinc-400 mt-2">
-            Ask anything about EU MDR, PMCF,
-            Clinical Evaluation and Healthcare Regulations.
-          </p>
-
-        </div>
+        <ChatInput
+          onSend={handleSend}
+        />
 
       </div>
     </>
