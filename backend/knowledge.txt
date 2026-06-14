@@ -1,0 +1,7 @@
+Harshit Sharma is a backend developer.
+
+Harshit knows Node.js, Redis, Kafka and Docker.
+
+PMCF stands for Post Market Clinical Follow-Up.
+
+EU MDR is a European Medical Device Regulation.
